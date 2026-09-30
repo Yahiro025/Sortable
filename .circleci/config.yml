@@ -2,21 +2,22 @@ version: 2.0
 jobs:
   build:
     docker:
-      - image: circleci/node:10.16-browsers
+      # testcafe-safe-storage 1.1.6 calls fs.rm, which Node 10 does not provide
+      - image: cimg/node:18.20.8-browsers
     steps:
       - checkout
 
       - restore_cache:
           keys:
-          - v1-dependencies-{{ checksum "package.json" }}
-          - v1-dependencies-
+          - v2-dependencies-{{ checksum "package.json" }}
+          - v2-dependencies-
 
       - run: npm install
 
       - save_cache:
           paths:
             - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
+          key: v2-dependencies-{{ checksum "package.json" }}
 
       - run: npm run build:umd
 
