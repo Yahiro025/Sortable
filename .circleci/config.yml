@@ -22,6 +22,13 @@ jobs:
       - run: npm run build:umd
 
       - run:
+          name: Install Google Chrome
+          command: |
+            curl -fsSL https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -o /tmp/chrome.deb
+            sudo apt-get update
+            sudo apt-get install -y /tmp/chrome.deb
+
+      - run:
           name: Compatibility Test
           command: |
             if [ -z "$CIRCLE_PR_NUMBER" ];
